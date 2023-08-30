@@ -1,19 +1,20 @@
-var http = require('http');
-var url = require('url');
-var fs = require('fs');
+const express = require("express");
+const app = express();
+const port = 3000;
 
-
-http.createServer((req, res) => {
-    var q = url.parse(req.url)
-
-    let filename = (q.pathname == '/') ? 'index.html' :
-                   (q.pathname == '/about') ? 'about.html' :
-                   (q.pathname == '/contact-me') ? 'contact-me.html' :
-                   '404.html'
-
-    fs.readFile(filename, (err, data) => {
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.write(data);
-        return res.end()
-    })
-}).listen(8080)
+app.get("/", function (req, res) {
+    res.send("Homepage");
+});
+app.get("/about", function (req, res) {
+    res.send("About section");
+});
+app.get("/contact-me", function (req, res) {
+    res.send("Contact information");
+});
+app.get("/*", function (req, res) {
+    res.send("404 page not found");
+});
+  
+app.listen(port, function () {
+console.log(`Example app listening on port ${port}!`);
+});
